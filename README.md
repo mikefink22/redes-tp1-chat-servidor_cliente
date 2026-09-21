@@ -2,7 +2,13 @@
 
 Chat básico en Python: un servidor TCP recibe mensajes de uno o varios clientes, los guarda en una base SQLite y responde con `Mensaje recibido: <timestamp>`.
 
-Incluye, como extra opcional, una interfaz web hecha con Streamlit que usa el mismo servidor.
+Incluye, como extra opcional, una interfaz web hecha con Streamlit que usa el mismo servidor:
+[Demo](https://chat-cliente-servidor.streamlit.app/)
+
+**Cómo probar la demo**
+
+1. Escribí un mensaje: el servidor responde `Mensaje recibido: <timestamp>`.
+2. Escribí `éxito`: la app muestra el aviso de cierre de sesión.
 
 ## Arquitectura
 
@@ -136,11 +142,6 @@ Esta sección es opcional y no forma parte de la consigna. Sirve para tener un l
 3. Hacé clic en **New app** (arriba a la derecha) y elegí el repositorio, la rama y el archivo principal: `src/streamlit_app.py`.
 4. Opcional: elegí un subdominio propio (la app queda en `https://<nombre>.streamlit.app`) y, en las opciones avanzadas, la versión de Python. Usá la misma con la que lo probaste en local.
 5. Hacé clic en **Deploy**. La primera vez tarda unos minutos porque instala `requirements.txt`. Después, cada `git push` a esa rama vuelve a desplegar la app.
-
-**Cómo probar la demo**
-
-1. Escribí un mensaje: el servidor responde `Mensaje recibido: <timestamp>`.
-2. Escribí `éxito`: la app muestra el aviso de cierre de sesión.
 
 **Limitaciones**
 
