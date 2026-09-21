@@ -64,6 +64,8 @@ def submit_message(mensaje: str) -> None:
 
     if respuesta.startswith(CONFIRMATION_PREFIX):
         history.append(("server", respuesta))
+        if mensaje.lower() in server.EXIT_COMMANDS:
+            history.append(("server", "Sesión finalizada. ¡Gracias por chatear!"))
     else:
         history.append(("error", respuesta or "El servidor no respondió."))
 
@@ -90,11 +92,7 @@ if "history" not in st.session_state:
 # El input se procesa antes de dibujar el historial para que el mensaje nuevo aparezca en la misma pasada.
 nuevo_mensaje = st.chat_input("Escribí tu mensaje...", max_chars=MAX_MESSAGE_CHARS)
 if nuevo_mensaje and nuevo_mensaje.strip():
-    submit_message(nuevo_mensaje.strip())
-    if respuesta.startswith(CONFIRMATION_PREFIX):
-        history.append(("server", respuesta))
-    if mensaje.lower() in server.EXIT_COMMANDS:
-        history.append(("server", "Sesión finalizada. ¡Gracias por chatear!"))
+    submit_message(nuevo_mensaje.strip())    
 
 for kind, text in st.session_state.history:
     render_message(kind, text)
