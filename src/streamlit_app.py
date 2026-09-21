@@ -79,19 +79,11 @@ def render_message(kind: str, text: str) -> None:
             st.text(text)
 
 def clear_server_history() -> str:
-    return send_to_chat_server(server.CLEAR_HISTORY_COMMAND)
-
-    col_borrar_vista, col_borrar_todo = st.columns(2)
-    with col_borrar_vista:
-    if st.session_state.history and st.button("🗑️ Borrar mi chat (solo esta pantalla)"):
-        st.session_state.history = []
-        st.rerun()
-    with col_borrar_todo:
-    if st.button("⚠️ Borrar todo el historial (base de datos)"):
-        resultado = clear_server_history()
-        st.session_state.history = []
-        st.success(resultado) if resultado.startswith("Historial borrado") else st.error(resultado)
-
+    """Le pide al servidor que borre TODA la tabla de mensajes (afecta a todos los clientes)."""
+    try:
+        return send_to_chat_server(server.CLEAR_HISTORY_COMMAND)
+    except OSError:
+        return "No se pudo conectar con el servidor de chat."
 
 st.set_page_config(page_title="Chat TCP", page_icon="💬")
 st.title("Chat TCP · SQLite")
@@ -102,6 +94,22 @@ ensure_server_running()
 
 if "history" not in st.session_state:
     st.session_state.history = []
+
+col_borrar_vista, col_borrar_todo = st.columns(2)
+
+with col_borrar_vista:
+    if st.session_state.history and st.button("🗑️ Borrar mi chat (solo esta pantalla)"):
+        st.session_state.history = []
+        st.rerun()
+
+with col_borrar_todo:
+    if st.button("⚠️ Borrar todo el historial (base de datos)"):
+        resultado = clear_server_history()
+        st.session_state.history = []
+        if resultado.startswith("Historial borrado"):
+            st.success(resultado)
+        else:
+            st.error(resultado)
 
 # El input se procesa antes de dibujar el historial para que el mensaje nuevo aparezca en la misma pasada.
 nuevo_mensaje = st.chat_input("Escribí tu mensaje...", max_chars=MAX_MESSAGE_CHARS)
