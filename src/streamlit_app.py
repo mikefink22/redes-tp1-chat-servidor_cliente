@@ -95,6 +95,15 @@ ensure_server_running()
 if "history" not in st.session_state:
     st.session_state.history = []
 
+
+# El input se procesa antes de dibujar el historial para que el mensaje nuevo aparezca en la misma pasada.
+nuevo_mensaje = st.chat_input("Escribí tu mensaje...", max_chars=MAX_MESSAGE_CHARS)
+if nuevo_mensaje and nuevo_mensaje.strip():
+    submit_message(nuevo_mensaje.strip())    
+
+for kind, text in st.session_state.history:
+    render_message(kind, text)
+
 col_borrar_vista, col_borrar_todo = st.columns(2)
 
 with col_borrar_vista:
@@ -110,11 +119,3 @@ with col_borrar_todo:
             st.success(resultado)
         else:
             st.error(resultado)
-
-# El input se procesa antes de dibujar el historial para que el mensaje nuevo aparezca en la misma pasada.
-nuevo_mensaje = st.chat_input("Escribí tu mensaje...", max_chars=MAX_MESSAGE_CHARS)
-if nuevo_mensaje and nuevo_mensaje.strip():
-    submit_message(nuevo_mensaje.strip())    
-
-for kind, text in st.session_state.history:
-    render_message(kind, text)
