@@ -78,6 +78,20 @@ def render_message(kind: str, text: str) -> None:
             # st.text muestra el contenido tal cual, sin interpretarlo como Markdown.
             st.text(text)
 
+def clear_server_history() -> str:
+    return send_to_chat_server(server.CLEAR_HISTORY_COMMAND)
+
+    col_borrar_vista, col_borrar_todo = st.columns(2)
+    with col_borrar_vista:
+    if st.session_state.history and st.button("🗑️ Borrar mi chat (solo esta pantalla)"):
+        st.session_state.history = []
+        st.rerun()
+    with col_borrar_todo:
+    if st.button("⚠️ Borrar todo el historial (base de datos)"):
+        resultado = clear_server_history()
+        st.session_state.history = []
+        st.success(resultado) if resultado.startswith("Historial borrado") else st.error(resultado)
+
 
 st.set_page_config(page_title="Chat TCP", page_icon="💬")
 st.title("Chat TCP · SQLite")

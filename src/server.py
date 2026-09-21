@@ -144,6 +144,14 @@ def start_server() -> None:
         server_socket.close()
         print("[SERVIDOR] Servidor apagado correctamente.")
 
+CLEAR_HISTORY_COMMAND = "!borrar_historial"
+
+def clear_all_messages(db_path: str = DB_NAME) -> bool:
+    with sqlite3.connect(db_path) as conn:
+        conn.execute("DELETE FROM mensajes")
+        conn.execute("DELETE FROM sqlite_sequence WHERE name = 'mensajes'")
+    return True
+
 
 if __name__ == "__main__":
     start_server()
