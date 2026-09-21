@@ -144,6 +144,24 @@ def start_server() -> None:
         server_socket.close()
         print("[SERVIDOR] Servidor apagado correctamente.")
 
+RATE_LIMIT_MAX_MESSAGES = 5
+RATE_LIMIT_WINDOW_SECONDS = 10
+
+_rate_limit_lock = threading.Lock()
+_message_timestamps: dict[str, deque] = defaultdict(deque)
+
+def is_rate_limited(ip_cliente: str) -> bool:
+    '''Limita a 5 mensajes cada 10 segundos por cliente. Devuelve True si el cliente debe ser bloqueado temporalmente.'''
+    now = time.monotonic()
+    with _rate_limit_lock:
+        timestamps = _message_timestamps[ip_cliente]
+        while timestamps and now - timestamps[0] > RATE_LIMIT_WINDOW_SECONDS:
+            timestamps.popleft()
+        if len(timestamps) >= RATE_LIMIT_MAX_MESSAGES:
+            return True
+        timestamps.append(now)
+        return False
+
 CLEAR_HISTORY_COMMAND = "!borrar_historial"
 
 def clear_all_messages(db_path: str = DB_NAME) -> bool:
