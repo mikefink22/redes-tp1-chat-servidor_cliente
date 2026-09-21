@@ -1,0 +1,3 @@
+# El servidor y el cliente de consola usan solo la librería estándar de Python.
+# Esta dependencia es únicamente para la interfaz web opcional (src/streamlit_app.py).
+streamlit>=1.40,<2.0
