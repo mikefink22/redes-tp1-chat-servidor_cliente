@@ -96,8 +96,20 @@ def handle_client_connection(client_socket: socket.socket, client_address: tuple
             mensaje = data.decode("utf-8").strip()
             timestamp = current_timestamp()
 
+            if mensaje == CLEAR_HISTORY_COMMAND:
+                # Comando especial: no se guarda como mensaje, borra toda la tabla.
+                if clear_all_messages():
+                    respuesta = "Historial borrado correctamente"
+                else:
+                    respuesta = "Error: no se pudo borrar el historial"
+            elif is_rate_limited(ip_cliente):
+                respuesta = (
+                    f"Error: límite de {RATE_LIMIT_MAX_MESSAGES} mensajes cada "
+                    f"{RATE_LIMIT_WINDOW_SECONDS}s alcanzado, esperá un momento"
+                )
+
             # Si falla el guardado se informa al cliente en lugar de confirmar una recepción falsa.
-            if save_message(mensaje, ip_cliente, timestamp):
+            elif save_message(mensaje, ip_cliente, timestamp):
                 respuesta = f"Mensaje recibido: {timestamp}"
             else:
                 respuesta = "Error: no se pudo guardar el mensaje"
