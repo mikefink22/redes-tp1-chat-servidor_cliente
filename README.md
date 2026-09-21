@@ -98,7 +98,7 @@ Se abre en http://localhost:8501. Si el servidor ya está corriendo (paso 1), la
 Los valores están en `src/config.py`:
 
 | Constante     | Valor       | Descripción                         |
-|---------------|-------------|-------------------------------------|
+| ------------- | ----------- | ----------------------------------- |
 | `SERVER_HOST` | `localhost` | Dirección donde escucha el servidor |
 | `SERVER_PORT` | `5000`      | Puerto del servidor TCP             |
 | `DB_NAME`     | `chat.db`   | Archivo de la base SQLite           |
@@ -136,6 +136,11 @@ Esta sección es opcional y no forma parte de la consigna. Sirve para tener un l
 3. Hacé clic en **New app** (arriba a la derecha) y elegí el repositorio, la rama y el archivo principal: `src/streamlit_app.py`.
 4. Opcional: elegí un subdominio propio (la app queda en `https://<nombre>.streamlit.app`) y, en las opciones avanzadas, la versión de Python. Usá la misma con la que lo probaste en local.
 5. Hacé clic en **Deploy**. La primera vez tarda unos minutos porque instala `requirements.txt`. Después, cada `git push` a esa rama vuelve a desplegar la app.
+
+**Cómo probar la demo**
+
+1. Escribí un mensaje: el servidor responde `Mensaje recibido: <timestamp>`.
+2. Escribí `éxito`: la app muestra el aviso de cierre de sesión.
 
 **Limitaciones**
 
