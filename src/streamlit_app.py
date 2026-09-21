@@ -91,10 +91,10 @@ if "history" not in st.session_state:
 nuevo_mensaje = st.chat_input("Escribí tu mensaje...", max_chars=MAX_MESSAGE_CHARS)
 if nuevo_mensaje and nuevo_mensaje.strip():
     submit_message(nuevo_mensaje.strip())
-        if respuesta.startswith(CONFIRMATION_PREFIX):
-            history.append(("server", respuesta))
-        if mensaje.lower() in server.EXIT_COMMANDS:
-            history.append(("server", "Sesión finalizada. ¡Gracias por chatear!"))
+    if respuesta.startswith(CONFIRMATION_PREFIX):
+        history.append(("server", respuesta))
+    if mensaje.lower() in server.EXIT_COMMANDS:
+        history.append(("server", "Sesión finalizada. ¡Gracias por chatear!"))
 
 for kind, text in st.session_state.history:
     render_message(kind, text)
