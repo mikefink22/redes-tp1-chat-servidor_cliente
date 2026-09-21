@@ -80,6 +80,7 @@ def render_message(kind: str, text: str) -> None:
 st.set_page_config(page_title="Chat TCP", page_icon="💬")
 st.title("Chat TCP · SQLite")
 st.caption("Cada mensaje viaja por un socket TCP al servidor, que lo guarda en SQLite.")
+st.warning("Demo pública: no escribas datos personales ni sensibles. Los mensajes se guardan en la base del servidor.")
 
 ensure_server_running()
 
